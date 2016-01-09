@@ -4,6 +4,7 @@
 class Laser
 {
 public:
+	float dmg = 10.0f;
 	Laser();
 	~Laser();
 	void advance();
@@ -15,6 +16,5 @@ public:
 private:
 	double x_loc = 0.0;
 	double z_loc = 0.0;
-	float dmg = 10.0f;
 	float length = 0.5f;
 };

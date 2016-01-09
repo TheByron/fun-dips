@@ -46,15 +46,26 @@ void drawLasers(){
 	}
 }
 
-void updateLasers(){
-	for (int i = 0; i < lasers.size(); i++){
+void updateLasers() {
+	for (int i = 0; i < lasers.size(); i++) {
 		lasers[i].advance();
 	}
 
-	for (int i = 0; i < lasers.size(); i++){
-		if (lasers[i].getZ() >= 50){
+	for (int i = 0; i < lasers.size(); i++) {
+		if (lasers[i].getZ() >= 50) {
 			lasers.erase(lasers.begin() + i);
 		}
+	}
+}
+
+void checkHit() {
+	// Detect laser-enemy collision (a hit)
+	for (int i = 0; i < lasers.size(); i++) {
+		if (bmanager.checkCollision(lasers[i].getX(), lasers[i].getZ(), lasers[i].dmg) == 0) {
+			lasers.erase(lasers.begin() + i);	// erase laser
+			cout << "hit!\n";
+		}
+			
 	}
 }
 
@@ -128,13 +139,11 @@ void mouseClick(int b, int s, int x, int y){
 void timer(int timer_id){
 	// timer function callback
 	if (timer_id == 1){		// updates laser beams
-		updateLasers();
-		glutTimerFunc(10, timer, 1);
-	}
-
-	if (timer_id == 2){		// updates enemies
 		bmanager.update();
-		glutTimerFunc(10, timer, 2);
+		checkHit();
+		updateLasers();
+		checkHit();
+		glutTimerFunc(10, timer, 1);
 	}
 
 	glutPostRedisplay();
@@ -156,7 +165,6 @@ int main(int argc, char **argv){
 	glutKeyboardFunc(normKeys);
 	glutMouseFunc(mouseClick);
 	glutTimerFunc(10, timer, 1);
-	glutTimerFunc(10, timer, 2);
 
 	// create bad guys
 	bmanager.populate(2, 10);

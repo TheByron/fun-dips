@@ -30,22 +30,21 @@ void BM::update(){
 
 void BM::display(){
 	int num_to_show = num_at_once;
-	for (int i = 0; i < bay.size(); i++){
-		if (!bay[i].dead){
+	unsigned int i = 0; 
+
+	while (num_to_show > 0) {
+		if (!bay[i].dead) {
 			num_to_show -= 1;	// decrement remaining enemies to display
 
-			// push a matrix on, translate to baddie's coords and draw
+								// push a matrix on, translate to baddie's coords and draw
 			glPushMatrix();
 			glTranslatef(bay[i].getX(), 0, bay[i].getZ());
 			bay[i].draw();
 			glPopMatrix();
-
-			// if enough enemies have been drawn, stop
-			if (num_to_show == 0)
-				break;
 		}
-		
+		i++;
 	}
+	
 }
 
 int BM::checkCollision(double x, double z, float dam){

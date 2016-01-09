@@ -42,7 +42,7 @@ double Badguy::getZ(){
 }
 
 double Badguy::getR(){
-	return r;
+	return r/2.0;
 }
 
 double Badguy::getHealth(){
